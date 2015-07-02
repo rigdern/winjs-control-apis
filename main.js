@@ -283,8 +283,20 @@ function main() {
 
     var filePath = path.resolve(process.argv[2]);
     var output = processFile(filePath);
+    var output2 = {};
+    Object.keys(output).forEach(function (controlName) {
+        var events = [];
+        Object.keys(output[controlName]).forEach(function (property) {
+            if (isEvent(property)) {
+                events.push(property);
+            }
+        });
+        if (events.length > 0) {
+            output2[controlName] = events;
+        }
+    });
     
-    var s = "var RawControlApis = " + sortedPrint(output) + ";";
+    var s = "var RawControlApis = " + sortedPrint(output2) + ";";
     console.log(s);
 }
 
